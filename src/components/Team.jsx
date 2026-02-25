@@ -98,7 +98,6 @@ export default function Team() {
 
           {/* Staff Advisors */}
           <div className="team-section">
-            <div className="team-category-title">STAFF ADVISORS</div>
             <div className="team-row">
               {staffAdvisors.map(m => <TeamCard key={m.name} member={m} />)}
             </div>
@@ -106,7 +105,6 @@ export default function Team() {
 
           {/* Chairman */}
           <div className="team-section">
-            <div className="team-category-title">EVENT CHAIRMAN</div>
             <div className="team-row">
               <TeamCard member={chairman} />
             </div>
@@ -114,7 +112,6 @@ export default function Team() {
 
           {/* Secretaries */}
           <div className="team-section">
-            <div className="team-category-title">EVENT SECRETARIES</div>
             <div className="team-row">
               {secretaries.map(m => <TeamCard key={m.name} member={m} />)}
             </div>
@@ -122,7 +119,6 @@ export default function Team() {
 
           {/* Coordinators */}
           <div className="team-section">
-            <div className="team-category-title">EVENT COORDINATORS</div>
             <div className="team-row">
               {coordinators.map(m => <TeamCard key={m.name} member={m} />)}
             </div>

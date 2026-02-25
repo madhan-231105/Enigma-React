@@ -2,17 +2,17 @@ const contactItems = [
   {
     icon: '📧',
     title: 'Email',
-    lines: ['enigmafilmfestival@gmail.com', 'filmclub@citchennai.edu.in'],
+    lines: ['thecitfilmclub@gmail.com'],
   },
   {
     icon: '📞',
     title: 'Phone',
-    lines: ['Sachin J - 8973648274', 'Shanthosh Kumar - 9159829878', 'Akshatha Rupa - 9342455877'],
+    lines: ['+91 82209 97164', '+91 94458 49106'],
   },
   {
     icon: '📍',
     title: 'Location',
-    lines: ['Auditorium, CIT Campus', 'Sardar Patel Road, Guindy', 'Chennai, Tamil Nadu - 600032'],
+    lines: ['Coimbatore Institute of Technology', 'Coimbatore - 641014','Tamil Nadu'],
   },
 ]
 
@@ -104,10 +104,10 @@ export default function Contact() {
               <div className="contact-social">
                 <h4>Follow Us</h4>
                 <div className="social-links">
-                  <a href="https://www.instagram.com/enigma_filmfestival/" target="_blank" rel="noreferrer" className="social-link">
+                  <a href="https://www.instagram.com/cit_film_club?igsh=NDZwM2hqczZ3ZHUx&utm_source=qr" target="_blank" rel="noreferrer" className="social-link">
                     <i className="bi bi-instagram" /> Instagram
                   </a>
-                  <a href="https://youtube.com/@enigmafilmfestival" target="_blank" rel="noreferrer" className="social-link">
+                  <a href="https://www.youtube.com/@CITFilmClub" target="_blank" rel="noreferrer" className="social-link">
                     <i className="bi bi-youtube" /> YouTube
                   </a>
                 </div>

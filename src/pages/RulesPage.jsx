@@ -294,6 +294,21 @@ export default function RulesPage() {
         <style>{`
           @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
           @keyframes shineSlide { 0% { left: -100%; } 100% { left: 100%; } }
+          .rule-card-inner { padding: 36px; }
+          .rule-content-body { padding-left: 80px; }
+          .rule-icon-circle { width: 60px; height: 60px; font-size: 1.8rem; }
+          .rule-title { font-size: 1.8rem; }
+          .rules-nav-dots { display: flex; }
+          @media (max-width: 768px) {
+            .rule-card-inner { padding: 20px 15px !important; }
+            .rule-content-body { padding-left: 0 !important; }
+            .rule-icon-circle { width: 48px !important; height: 48px !important; font-size: 1.5rem !important; }
+            .rule-title { font-size: 1.3rem !important; }
+            .rules-nav-dots { display: none !important; }
+          }
+          @media (max-width: 480px) {
+            .rule-title { font-size: 1.2rem !important; }
+          }
         `}</style>
 
         {rules.map((rule, i) => (
@@ -305,7 +320,7 @@ export default function RulesPage() {
             style={{ opacity: 0, transform: 'translateY(30px)', animation: 'fadeInUp 0.6s ease forwards', animationDelay: `${0.1 + i * 0.1}s` }}
           >
             <div
-              className="relative rounded-2xl p-9 transition-all duration-300 cursor-pointer overflow-hidden"
+              className="relative rounded-2xl transition-all duration-300 cursor-pointer overflow-hidden rule-card-inner"
               style={{
                 background: 'linear-gradient(135deg, rgba(125,76,255,0.12), rgba(212,175,55,0.08))',
                 border: '2px solid rgba(125,76,255,0.3)',
@@ -346,21 +361,18 @@ export default function RulesPage() {
               {/* Header */}
               <div className="flex items-center gap-5 mb-5">
                 <div
-                  className="flex items-center justify-center rounded-full flex-shrink-0 transition-all duration-300"
+                  className="flex items-center justify-center rounded-full flex-shrink-0 transition-all duration-300 rule-icon-circle"
                   style={{
-                    width: 60,
-                    height: 60,
                     background: 'linear-gradient(135deg, #d4af37, #f1d77a)',
-                    fontSize: '1.8rem',
                     boxShadow: '0 5px 20px rgba(212,175,55,0.4)',
                   }}
                 >
                   {rule.icon}
                 </div>
                 <h2
+                  className="rule-title"
                   style={{
                     fontFamily: 'Bebas Neue, sans-serif',
-                    fontSize: '1.8rem',
                     color: '#d4af37',
                     letterSpacing: 3,
                     margin: 0,
@@ -373,11 +385,11 @@ export default function RulesPage() {
 
               {/* Content */}
               <div
+                className="rule-content-body"
                 style={{
                   color: '#e0d0e8',
                   fontSize: '1rem',
                   lineHeight: 1.8,
-                  paddingLeft: 80,
                 }}
               >
                 <style>{`

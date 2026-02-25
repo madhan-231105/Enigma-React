@@ -8,11 +8,8 @@ export default function Navbar() {
   const isHome = location.pathname === '/'
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
   const closeMenu = () => setMenuOpen(false)
@@ -20,14 +17,16 @@ export default function Navbar() {
   const scrollTo = (id) => {
     closeMenu()
     if (isHome) {
-      const el = document.getElementById(id)
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
+      setTimeout(() => {
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      }, 50)
     } else {
       navigate('/')
       setTimeout(() => {
         const el = document.getElementById(id)
         if (el) el.scrollIntoView({ behavior: 'smooth' })
-      }, 300)
+      }, 400)
     }
   }
 
@@ -38,112 +37,154 @@ export default function Navbar() {
     { label: 'Prizes', id: 'awards' },
     { label: 'Sponsors', id: 'sponsors' },
     { label: 'Contact Us', id: 'contact' },
+    { label: 'Rules', to: '/rules' },
   ]
 
   return (
-    <nav
-      className="fixed top-0 left-0 w-full flex justify-between items-center px-[5%] py-4 z-[1000]"
-      style={{
-        background: 'rgba(10, 0, 20, 0.98)',
-        backdropFilter: 'blur(10px)',
-        boxShadow: '0 2px 20px rgba(0,0,0,0.5)',
-        borderBottom: '1px solid rgba(212,175,55,0.3)',
-      }}
-    >
-      {/* Left: Logos */}
-      <div className="flex gap-4 items-center z-[1002]">
-        <img src="/images/cit.png" alt="CIT Logo" className="h-12 w-auto object-contain" onError={e => e.target.style.display='none'} />
-        <img src="/images/FC_logo.png" alt="Film Club Logo" className="h-12 w-auto object-contain" onError={e => e.target.style.display='none'} />
-      </div>
+    <>
+      <style>{`
+        .enigma-navbar {
+          position: fixed; top: 0; left: 0; width: 100%;
+          display: flex; justify-content: space-between; align-items: center;
+          padding: 0 5%; height: 80px;
+          background: rgba(10, 0, 20, 0.98); backdrop-filter: blur(10px);
+          z-index: 1000; box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+          border-bottom: 1px solid rgba(212,175,55,0.3);
+          box-sizing: border-box;
+        }
+        .nav-left { display: flex; gap: 15px; align-items: center; z-index: 1002; }
+        .nav-left img { height: 50px; width: auto; object-fit: contain; }
+        .nav-center {
+          display: flex; list-style: none; gap: 30px; margin: 0; padding: 0; align-items: center;
+        }
+        .nav-center a, .nav-center button {
+          color: #d4af37; background: none; border: none; cursor: pointer;
+          font-size: 16px; font-weight: 500; font-family: 'Poppins', sans-serif;
+          text-decoration: none; transition: color 0.3s; padding: 0;
+          -webkit-tap-highlight-color: rgba(212,175,55,0.3);
+        }
+        .nav-center a:hover, .nav-center button:hover { color: #fff; }
+        .nav-right { z-index: 1002; }
+        .register-btn {
+          padding: 10px 25px;
+          background: linear-gradient(135deg, #d4af37 0%, #f2d06b 100%);
+          color: #0a0014 !important; text-decoration: none; border-radius: 25px;
+          font-weight: 600; font-size: 15px; transition: all 0.3s;
+          box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+        }
+        .register-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,0.5); }
+        .mobile-menu-toggle {
+          display: none; flex-direction: column; cursor: pointer;
+          padding: 5px; z-index: 1002; background: none; border: none;
+        }
+        .hamburger-line {
+          width: 30px; height: 3px; border-radius: 3px;
+          background-color: #d4af37; margin: 4px 0;
+          transition: 0.4s; display: block;
+        }
+        .mobile-open .hamburger-line:nth-child(1) { transform: rotate(-45deg) translate(-7px, 7px); background: #fff; }
+        .mobile-open .hamburger-line:nth-child(2) { opacity: 0; }
+        .mobile-open .hamburger-line:nth-child(3) { transform: rotate(45deg) translate(-7px, -7px); background: #fff; }
+        .mobile-menu-overlay {
+          display: none;
+          position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+          background: linear-gradient(135deg, #0a0014 0%, #1a0a2e 50%, #0a0014 100%);
+          flex-direction: column; justify-content: center; align-items: center;
+          z-index: 1001; opacity: 0; pointer-events: none;
+          transition: opacity 0.4s ease; overflow-y: auto;
+          list-style: none; margin: 0; padding: 0;
+        }
+        .mobile-menu-overlay.open { opacity: 1; pointer-events: all; }
+        .mobile-menu-overlay li { width: 100%; text-align: center; }
+        .mobile-menu-overlay a,
+        .mobile-menu-overlay button {
+          display: block; width: 100%; padding: 20px 40px;
+          font-size: 24px; font-weight: 600; color: #d4af37;
+          background: none; border: none; cursor: pointer;
+          font-family: 'Poppins', sans-serif; text-decoration: none;
+          transition: all 0.3s; letter-spacing: 1px;
+          -webkit-tap-highlight-color: rgba(212,175,55,0.3);
+          min-height: 48px; box-sizing: border-box;
+        }
+        .mobile-menu-overlay a:hover, .mobile-menu-overlay button:hover {
+          color: #fff; background: rgba(212,175,55,0.1);
+        }
+        .mobile-register-wrap { margin-top: 30px; padding: 0 40px; text-align: center; }
+        .mobile-register-btn {
+          background: linear-gradient(135deg, #d4af37 0%, #f2d06b 100%);
+          color: #0a0014 !important; border-radius: 50px;
+          font-size: 20px; padding: 18px 50px;
+          display: inline-block; text-decoration: none;
+          font-weight: 700; box-shadow: 0 8px 30px rgba(212,175,55,0.5);
+        }
+        @media (max-width: 1024px) {
+          .enigma-navbar { padding: 0 30px; }
+          .nav-center { gap: 25px; }
+          .nav-center a, .nav-center button { font-size: 14px; }
+        }
+        @media (max-width: 968px) {
+          .enigma-navbar { padding: 0 20px; height: 70px; }
+          .nav-left img { height: 40px !important; }
+          .nav-center { display: none !important; }
+          .nav-right { display: none !important; }
+          .mobile-menu-toggle { display: flex !important; }
+          .mobile-menu-overlay { display: flex !important; }
+        }
+        @media (max-width: 480px) {
+          .nav-left img { height: 35px !important; }
+          .mobile-menu-overlay a, .mobile-menu-overlay button { font-size: 20px; padding: 18px 30px; }
+          .mobile-register-btn { font-size: 18px; padding: 15px 40px; }
+        }
+      `}</style>
 
-      {/* Hamburger */}
-      <button
-        className={`lg:hidden flex flex-col cursor-pointer p-1 z-[1002] bg-transparent border-0 ${menuOpen ? 'hamburger-active' : ''}`}
-        onClick={() => setMenuOpen(!menuOpen)}
-        aria-label="Toggle menu"
-      >
-        <span className="block w-8 h-0.5 bg-gold mb-1.5 transition-all duration-300 rounded" style={{ backgroundColor: '#d4af37' }} />
-        <span className="block w-8 h-0.5 bg-gold mb-1.5 transition-all duration-300 rounded" style={{ backgroundColor: '#d4af37' }} />
-        <span className="block w-8 h-0.5 bg-gold transition-all duration-300 rounded" style={{ backgroundColor: '#d4af37' }} />
-      </button>
+      <nav className="enigma-navbar">
+        <div className="nav-left">
+          <img src="/images/cit.png" alt="CIT Logo" onError={e => e.target.style.display = 'none'} />
+          <img src="/images/FC_logo.png" alt="Film Club Logo" onError={e => e.target.style.display = 'none'} />
+        </div>
 
-      {/* Center Nav (desktop) */}
-      <ul
-        className={`
-          lg:flex lg:static lg:h-auto lg:w-auto lg:bg-transparent lg:flex-row lg:opacity-100 lg:pointer-events-auto lg:gap-8 lg:m-0 lg:p-0
-          fixed top-0 left-0 w-full h-screen flex-col justify-center items-center gap-0 p-0
-          transition-opacity duration-300
-          ${menuOpen ? 'flex opacity-100 pointer-events-auto' : 'hidden opacity-0 pointer-events-none'}
-        `}
-        style={!menuOpen ? {} : {
-          background: 'linear-gradient(135deg, #0a0014 0%, #1a0a2e 50%, #0a0014 100%)',
-          zIndex: 1001,
-        }}
-        id="navMenu"
-      >
-        {navLinks.map(({ label, id }, i) => (
-          <li
-            key={id}
-            className="w-full text-center lg:w-auto"
-            style={menuOpen ? {
-              opacity: menuOpen ? 1 : 0,
-              transform: menuOpen ? 'translateY(0)' : 'translateY(20px)',
-              transition: `all 0.4s ease ${0.1 + i * 0.05}s`
-            } : {}}
-          >
-            <button
-              onClick={() => scrollTo(id)}
-              className="nav-link-hover text-gold font-medium text-base transition-all duration-300 hover:text-white bg-transparent border-0 cursor-pointer
-                lg:py-0 lg:px-0 lg:text-sm lg:tracking-widest
-                block w-full py-5 px-10 text-2xl font-semibold tracking-wide hover:bg-[rgba(212,175,55,0.1)]"
-              style={{ color: '#d4af37' }}
-            >
-              {label}
-            </button>
+        <ul className="nav-center">
+          {navLinks.map(({ label, id, to }) => (
+            <li key={label}>
+              {to ? (
+                <Link to={to}>{label}</Link>
+              ) : (
+                <button onClick={() => scrollTo(id)}>{label}</button>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        <div className="nav-right">
+          <Link to="/rules" className="register-btn">Register Now →</Link>
+        </div>
+
+        <button
+          className={`mobile-menu-toggle ${menuOpen ? 'mobile-open' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span className="hamburger-line" />
+          <span className="hamburger-line" />
+          <span className="hamburger-line" />
+        </button>
+      </nav>
+
+      {/* Mobile overlay */}
+      <ul className={`mobile-menu-overlay ${menuOpen ? 'open' : ''}`}>
+        {navLinks.map(({ label, id, to }, i) => (
+          <li key={label} style={{ opacity: menuOpen ? 1 : 0, transform: menuOpen ? 'translateY(0)' : 'translateY(20px)', transition: `all 0.4s ease ${0.1 + i * 0.05}s` }}>
+            {to ? (
+              <Link to={to} onClick={closeMenu}>{label}</Link>
+            ) : (
+              <button onClick={() => scrollTo(id)}>{label}</button>
+            )}
           </li>
         ))}
-        <li className="w-full text-center lg:hidden" style={menuOpen ? { opacity: 1, transition: `all 0.4s ease ${0.45}s` } : {}}>
-          <Link
-            to="/rules"
-            onClick={closeMenu}
-            className="block mx-auto mt-8 text-xl py-5 px-12 rounded-full font-semibold inline-block"
-            style={{
-              background: 'linear-gradient(135deg, #d4af37 0%, #f2d06b 100%)',
-              color: '#0a0014',
-              boxShadow: '0 8px 30px rgba(212, 175, 55, 0.5)',
-            }}
-          >
-            Register Now →
-          </Link>
-        </li>
-        <li className="w-full text-center">
-          <Link
-            to="/rules"
-            onClick={closeMenu}
-            className="nav-link-hover text-gold font-medium text-base transition-all duration-300 hover:text-white bg-transparent border-0 cursor-pointer
-              lg:py-0 lg:px-0 lg:text-sm lg:tracking-widest
-              block w-full py-5 px-10 text-2xl font-semibold tracking-wide hover:bg-[rgba(212,175,55,0.1)]"
-            style={{ color: '#d4af37' }}
-          >
-            Rules
-          </Link>
+        <li className="mobile-register-wrap" style={{ opacity: menuOpen ? 1 : 0, transition: `all 0.4s ease ${0.1 + navLinks.length * 0.05}s` }}>
+          <Link to="/rules" onClick={closeMenu} className="mobile-register-btn">Register Now →</Link>
         </li>
       </ul>
-
-      {/* Right: Register button (desktop) */}
-      <div className="hidden lg:block z-[1002]">
-        <Link
-          to="/rules"
-          className="px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5"
-          style={{
-            background: 'linear-gradient(135deg, #d4af37 0%, #f2d06b 100%)',
-            color: '#0a0014',
-            boxShadow: '0 4px 15px rgba(212,175,55,0.3)',
-          }}
-        >
-          Register Now →
-        </Link>
-      </div>
-    </nav>
+    </>
   )
 }

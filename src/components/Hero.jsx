@@ -10,27 +10,48 @@ export default function Hero() {
       if (window.VANTA && vantaRef.current && !vantaEffect.current) {
         vantaEffect.current = window.VANTA.NET({
           el: vantaRef.current,
-          mouseControls: true, touchControls: true, gyroControls: false,
-          minHeight: 200, minWidth: 200, scale: 1, scaleMobile: 1,
-          backgroundColor: 0x0a0014, color: 0xd4af37,
-          points: 12, maxDistance: 22, spacing: 16,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+
+          minHeight: 200,
+          minWidth: 200,
+
+          scale: 1,
+          scaleMobile: 1.1,
+
+          backgroundColor: 0x0a0014,
+          color: 0xd4af37,
+
+          points: 14,
+          maxDistance: 24,
+          spacing: 16,
         })
       }
     }
+
     if (window.THREE && window.VANTA) {
       loadVanta()
     } else {
       const ts = document.createElement('script')
-      ts.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js'
+      ts.src =
+        'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js'
       ts.onload = () => {
         const vs = document.createElement('script')
-        vs.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js'
+        vs.src =
+          'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js'
         vs.onload = loadVanta
         document.body.appendChild(vs)
       }
       document.body.appendChild(ts)
     }
-    return () => { if (vantaEffect.current) { vantaEffect.current.destroy(); vantaEffect.current = null } }
+
+    return () => {
+      if (vantaEffect.current) {
+        vantaEffect.current.destroy()
+        vantaEffect.current = null
+      }
+    }
   }, [])
 
   const scrollToAbout = () => {
@@ -42,72 +63,145 @@ export default function Hero() {
     <>
       <style>{`
         #vanta-bg {
-          height: 100vh; width: 100%; position: relative;
-          display: flex; align-items: center; justify-content: center; overflow: hidden;
+          height: 100vh;
+          width: 100%;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
         }
+
         .hero-overlay {
-          position: absolute; inset: 0;
+          position: absolute;
+          inset: 0;
           background: radial-gradient(circle at center, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
           z-index: 1;
         }
+
         .hero-content {
-          position: relative; z-index: 2; text-align: center;
-          max-width: 900px; padding: 20px 20px;
+          position: relative;
+          z-index: 2;
+          text-align: center;
+          max-width: 900px;
+          padding: 20px;
           animation: fadeInUp 1s ease;
         }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes glowText { from { filter: drop-shadow(0 0 20px rgba(212,175,55,0.4)); } to { filter: drop-shadow(0 0 40px rgba(212,175,55,0.8)); } }
+
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glowText {
+          from { filter: drop-shadow(0 0 20px rgba(212,175,55,0.4)); }
+          to { filter: drop-shadow(0 0 40px rgba(212,175,55,0.8)); }
+        }
+
         .hero-content h1 {
-          font-family: 'Bebas Neue', sans-serif; font-size: 6rem;
-          letter-spacing: 12px; background: linear-gradient(135deg, #d4af37, #f1d77a, #d4af37);
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-          margin-bottom: 10px; animation: glowText 2s ease-in-out infinite alternate;
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 6rem;
+          letter-spacing: 12px;
+          background: linear-gradient(135deg, #d4af37, #f1d77a, #d4af37);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 10px;
+          animation: glowText 2s ease-in-out infinite alternate;
         }
+
         .hero-content h3 {
-          font-family: 'Bebas Neue', sans-serif; letter-spacing: 6px;
-          color: #f1d77a; font-size: 1.8rem;
+          font-family: 'Bebas Neue', sans-serif;
+          letter-spacing: 6px;
+          color: #f1d77a;
+          font-size: 1.8rem;
         }
-        .hero-content p { margin-top: 12px; font-size: 1.1rem; line-height: 1.8; color: #e0d0e8; font-weight: 300; }
+
+        .hero-content p {
+          margin-top: 12px;
+          font-size: 1.1rem;
+          line-height: 1.8;
+          color: #f0e6ff;
+          font-weight: 400;
+        }
+
         .hero-btns {
-          display: flex; gap: 20px; justify-content: center;
-          flex-wrap: wrap; margin-top: 30px;
+          display: flex;
+          gap: 20px;
+          justify-content: center;
+          flex-wrap: wrap;
+          margin-top: 30px;
         }
+
         .btn-gold {
           padding: 15px 40px;
           background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.4));
-          border: 2px solid #d4af37; color: #d4af37; border-radius: 50px;
-          font-weight: 600; font-size: 16px; cursor: pointer;
-          box-shadow: 0 8px 25px rgba(212,175,55,0.3); transition: all 0.4s ease;
-          font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: rgba(212,175,55,0.3);
+          border: 2px solid #d4af37;
+          color: #d4af37;
+          border-radius: 50px;
+          font-weight: 600;
+          font-size: 16px;
+          cursor: pointer;
+          transition: all 0.4s ease;
         }
-        .btn-gold:hover { background: linear-gradient(135deg, #d4af37, #f2d06b); color: #0a0014; }
+
         .btn-register {
           padding: 15px 40px;
           background: linear-gradient(135deg, #d4af37, #f2d06b);
-          color: #0a0014; border-radius: 50px; font-weight: 700; font-size: 16px;
-          text-decoration: none; box-shadow: 0 8px 25px rgba(212,175,55,0.4);
-          transition: all 0.4s ease; display: inline-block;
-          -webkit-tap-highlight-color: rgba(212,175,55,0.3);
+          color: #0a0014;
+          border-radius: 50px;
+          font-weight: 700;
+          font-size: 16px;
+          text-decoration: none;
+          display: inline-block;
         }
-        .btn-register:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(212,175,55,0.6); }
+
+        /* ---------------- MOBILE FIX ---------------- */
+
         @media (max-width: 768px) {
-          .hero-content h1 { font-size: 3.5rem !important; letter-spacing: 6px !important; }
-          .hero-content h3 { font-size: 1.3rem !important; }
-          .hero-content p { font-size: 1rem; }
-          .hero-content { padding: 40px 20px; }
-          .btn-gold, .btn-register { padding: 12px 30px; font-size: 1rem; }
-          .hero-btns { gap: 15px; }
+
+          .hero-overlay {
+            background: rgba(0, 0, 0, 0.75); /* Stronger dark layer */
+          }
+
+          .hero-content {
+            background: rgba(0, 0, 0, 0.55); /* Dark glass box */
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 30px 20px;
+          }
+
+          .hero-content h1 {
+            font-size: 3rem !important;
+            letter-spacing: 6px !important;
+            text-shadow: 0 0 15px rgba(0,0,0,0.8);
+          }
+
+          .hero-content h3 {
+            font-size: 1.2rem !important;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+          }
+
+          .hero-content p {
+            font-size: 1rem;
+            color: #ffffff; /* pure white for clarity */
+            text-shadow: 0 0 8px rgba(0,0,0,0.9);
+          }
+
+          .hero-btns {
+            gap: 15px;
+          }
+
+          .btn-gold,
+          .btn-register {
+            width: 100%;
+            max-width: 280px;
+          }
         }
+
         @media (max-width: 480px) {
-          .hero-content h1 { font-size: 2.5rem !important; letter-spacing: 4px !important; }
-          .hero-content h3 { font-size: 1.1rem !important; }
-          .btn-gold, .btn-register { padding: 10px 25px; font-size: 0.9rem; width: 100%; max-width: 280px; }
-          .hero-btns { flex-direction: column; align-items: center; }
-        }
-        @media (max-width: 968px) and (orientation: landscape) {
-          #vanta-bg { height: auto; min-height: 100vh; }
-          .hero-content { padding: 60px 20px; }
-          .hero-content h1 { font-size: 3rem !important; }
+          .hero-content h1 {
+            font-size: 2.3rem !important;
+          }
         }
       `}</style>
 
@@ -117,10 +211,17 @@ export default function Hero() {
           <h1>ENIGMA</h1>
           <h3># TAKE-III</h3>
           <p>An Echo of Cinema</p>
-          <p>Where stories rise, visions compete, and filmmakers step closer to the silver screen.</p>
+          <p>
+            Where stories rise, visions compete, and filmmakers step closer to the silver screen.
+          </p>
+
           <div className="hero-btns">
-            <button className="btn-gold" onClick={scrollToAbout}>Explore Festival</button>
-            <Link to="/rules" className="btn-register">Register Now →</Link>
+            <button className="btn-gold" onClick={scrollToAbout}>
+              Explore Festival
+            </button>
+            <Link to="/rules" className="btn-register">
+              Register Now →
+            </Link>
           </div>
         </div>
       </div>

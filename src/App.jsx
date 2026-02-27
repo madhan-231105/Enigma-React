@@ -8,6 +8,7 @@ import Awards from './components/Awards'
 import Team from './components/Team'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import Dignitaries from './components/Dignitaries'
 import { useEffect } from 'react'
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
       <main>
         <Hero />
         <About />
+        <Dignitaries/>
         <Streaming />
         <Awards />
         <Team />

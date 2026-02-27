@@ -1,7 +1,7 @@
 const filmPosters = [
   { src: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=600&fit=crop', title: 'கதை 01' },
   { src: 'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=400&h=600&fit=crop', title: 'கதை 02' },
-  { src: 'https://images.unsplash.com/photo-1574267432644-f74f3ceb56e7?w=400&h=600&fit=crop', title: 'கதை 03' },
+  { src: 'https://plus.unsplash.com/premium_photo-1710961232986-36cead00da3c?q=80&w=784&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?w=400&h=600&fit=crop', title: 'கதை 03' },
   { src: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop', title: 'கதை 04' },
   { src: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400&h=600&fit=crop', title: 'கதை 05' },
   { src: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=600&fit=crop', title: 'கதை 06' },

@@ -1,15 +1,36 @@
 import React from 'react'
 
 export default function Dignitaries() {
-  const chiefGuestPosters = [
-    '/images/Chief_Guest_2.png', 
-    '/images/Chief_Guest_1.png'
+  // Updated data structures to include names and roles
+  const chiefGuests = [
+    {
+      image: '/images/Chief_Guest_2.png',
+      name: 'Mr. Vikranan Ashok',
+      role: 'Director of Mask'
+    },
+    {
+      image: '/images/Chief_Guest_1.png',
+      name: 'Mr. Vivek R venkataraman',
+      role: 'Actor/Model'
+    }
   ]
   
-  const juryPosters = [
-    '/images/Jury_3.png',
-    '/images/Jury_2.png',
-    '/images/Jury_1.png'
+  const juryMembers = [
+    {
+      image: '/images/Jury_3.png',
+      name: 'Mr. R. Guru Karthikeyan',
+      role: 'Director of Blood and Black'
+    },
+    {
+      image: '/images/Jury_2.png',
+      name: 'Mr. Kindsely',
+      role: 'Assistant director of Kottukaali'
+    },
+    {
+      image: '/images/Jury_1.png',
+      name: 'Mr. Dhaneesh',
+      role: 'Movie Consultant/Actor'
+    }
   ]
 
   return (
@@ -20,10 +41,9 @@ export default function Dignitaries() {
           background: #0a0516;
           position: relative;
           overflow: hidden;
-          text-align: center; /* Centers inline and inline-block children */
+          text-align: center;
         }
 
-        /* Ambient background glow */
         #dignitaries::before {
           content: '';
           position: absolute;
@@ -41,7 +61,6 @@ export default function Dignitaries() {
           margin: 0 auto;
           position: relative;
           z-index: 2;
-          text-align: center; /* Ensures all headers/text are centered */
         }
 
         .welcome-text {
@@ -53,7 +72,6 @@ export default function Dignitaries() {
           margin-bottom: 10px;
           text-transform: uppercase;
           display: block;
-          text-align: center;
         }
 
         .section-header {
@@ -65,53 +83,85 @@ export default function Dignitaries() {
           letter-spacing: 6px;
           margin-bottom: 60px;
           text-transform: uppercase;
-          text-align: center;
-          display: inline-block; /* Helps with background-clip and centering */
-          width: 100%;
         }
 
         .poster-grid {
           display: flex;
-          justify-content: center; /* Centers the poster cards */
-          align-items: center;
+          justify-content: center;
+          align-items: stretch; /* Ensures cards in a row have same height */
           flex-wrap: wrap;
           gap: 40px;
           margin-bottom: 100px;
         }
 
-        .poster-wrapper {
+        /* --- THE CARD --- */
+        .dignitary-card {
           position: relative;
           border-radius: 20px;
-          background: rgba(255, 255, 255, 0.02);
-          padding: 10px;
+          background: rgba(255, 255, 255, 0.03);
+          padding: 15px;
           border: 1px solid rgba(212, 175, 55, 0.2);
           transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
           box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+          width: 320px; /* Standardized width */
+          display: flex;
+          flex-direction: column;
         }
 
-        .cg-poster { width: 380px; }
-        .jury-poster { width: 350px; }
+        .dignitary-card:hover {
+          transform: translateY(-15px);
+          border-color: #d4af37;
+          box-shadow: 0 30px 60px rgba(212, 175, 55, 0.15);
+          background: rgba(255, 255, 255, 0.06);
+        }
 
-        .poster-wrapper img {
+        .image-container {
+          width: 100%;
+          border-radius: 12px;
+          overflow: hidden;
+          margin-bottom: 20px;
+        }
+
+        .image-container img {
           width: 100%;
           height: auto;
           display: block;
-          border-radius: 12px;
-          filter: grayscale(20%);
+          filter: grayscale(30%);
           transition: filter 0.5s ease;
         }
 
-        .poster-wrapper:hover {
-          transform: translateY(-15px) scale(1.03);
-          border-color: #d4af37;
-          box-shadow: 0 30px 60px rgba(212, 175, 55, 0.15);
-          background: rgba(255, 255, 255, 0.05);
-        }
-
-        .poster-wrapper:hover img {
+        .dignitary-card:hover img {
           filter: grayscale(0%);
         }
 
+        /* --- INFO TEXT --- */
+        .info-container {
+          padding-bottom: 10px;
+        }
+
+        .dignitary-name {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 1.8rem;
+          color: #fff;
+          margin: 0;
+          letter-spacing: 1px;
+          transition: color 0.3s ease;
+        }
+
+        .dignitary-card:hover .dignitary-name {
+          color: #d4af37;
+        }
+
+        .dignitary-role {
+          font-family: 'Inter', sans-serif;
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.6);
+          margin-top: 5px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        /* Divider Decoration */
         .divider-container {
           display: flex;
           align-items: center;
@@ -119,26 +169,12 @@ export default function Dignitaries() {
           margin: 40px 0 80px;
           gap: 20px;
         }
-
-        .line {
-          height: 1px;
-          width: 100px;
-          background: linear-gradient(90deg, transparent, #d4af37);
-        }
-
-        .line.right {
-          background: linear-gradient(-90deg, transparent, #d4af37);
-        }
-
-        .diamond {
-          width: 10px;
-          height: 10px;
-          border: 1px solid #d4af37;
-          transform: rotate(45deg);
-        }
+        .line { height: 1px; width: 100px; background: linear-gradient(90deg, transparent, #d4af37); }
+        .line.right { background: linear-gradient(-90deg, transparent, #d4af37); }
+        .diamond { width: 10px; height: 10px; border: 1px solid #d4af37; transform: rotate(45deg); }
 
         @media (max-width: 768px) {
-          .cg-poster, .jury-poster { width: 100%; max-width: 340px; }
+          .dignitary-card { width: 100%; max-width: 320px; }
           #dignitaries { padding: 60px 15px; }
           .section-header { font-size: 2.2rem; }
         }
@@ -149,9 +185,15 @@ export default function Dignitaries() {
         <span className="welcome-text">Distinguished</span>
         <h2 className="section-header">Chief Guests</h2>
         <div className="poster-grid">
-          {chiefGuestPosters.map((src, index) => (
-            <div key={index} className="poster-wrapper cg-poster">
-              <img src={src} alt={`Chief Guest ${index + 1}`} />
+          {chiefGuests.map((person, index) => (
+            <div key={index} className="dignitary-card">
+              <div className="image-container">
+                <img src={person.image} alt={person.name} />
+              </div>
+              <div className="info-container">
+                <h3 className="dignitary-name">{person.name}</h3>
+                <p className="dignitary-role">{person.role}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -167,9 +209,15 @@ export default function Dignitaries() {
         <span className="welcome-text">Honorable</span>
         <h2 className="section-header">The Jury</h2>
         <div className="poster-grid">
-          {juryPosters.map((src, index) => (
-            <div key={index} className="poster-wrapper jury-poster">
-              <img src={src} alt={`Jury ${index + 1}`} />
+          {juryMembers.map((person, index) => (
+            <div key={index} className="dignitary-card">
+              <div className="image-container">
+                <img src={person.image} alt={person.name} />
+              </div>
+              <div className="info-container">
+                <h3 className="dignitary-name">{person.name}</h3>
+                <p className="dignitary-role">{person.role}</p>
+              </div>
             </div>
           ))}
         </div>

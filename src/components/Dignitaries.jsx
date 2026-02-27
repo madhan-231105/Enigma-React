@@ -7,9 +7,9 @@ export default function Dignitaries() {
   ]
   
   const juryPosters = [
-    '/images/Jury_1.png',
+    '/images/Jury_3.png',
     '/images/Jury_2.png',
-    '/images/Jury_3.png'
+    '/images/Jury_1.png'
   ]
 
   return (

@@ -7,6 +7,7 @@ export default function Navbar() {
   const location = useLocation()
   const isHome = location.pathname === '/'
 
+  // Prevent scrolling when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -31,8 +32,9 @@ export default function Navbar() {
   }
 
   const navLinks = [
-    { label: 'Home', id: 'vanta-bg' },
+    { label: 'Home', id: 'hero' },
     { label: 'About', id: 'about-enigma' },
+    { label: 'Dignitaries', id: 'dignitaries' },
     { label: 'Team Lumora', id: 'about-us' },
     { label: 'Prizes', id: 'awards' },
     { label: 'Sponsors', id: 'sponsors' },
@@ -46,94 +48,90 @@ export default function Navbar() {
         .enigma-navbar {
           position: fixed; top: 0; left: 0; width: 100%;
           display: flex; justify-content: space-between; align-items: center;
-          padding: 0 5%; height: 80px;
-          background: rgba(10, 0, 20, 0.98); backdrop-filter: blur(10px);
-          z-index: 1000; box-shadow: 0 2px 20px rgba(0,0,0,0.5);
-          border-bottom: 1px solid rgba(212,175,55,0.3);
+          padding: 0 4%; height: 80px;
+          background: rgba(10, 0, 20, 0.96); backdrop-filter: blur(12px);
+          z-index: 1000; border-bottom: 1px solid rgba(212,175,55,0.2);
           box-sizing: border-box;
         }
-        .nav-left { display: flex; gap: 15px; align-items: center; z-index: 1002; }
-        .nav-left img { height: 50px; width: auto; object-fit: contain; }
+
+        /* Logo Section */
+        .nav-left { display: flex; gap: 12px; align-items: center; z-index: 1002; }
+        .nav-left img { height: 45px; width: auto; object-fit: contain; }
+
+        /* Desktop Menu */
         .nav-center {
-          display: flex; list-style: none; gap: 30px; margin: 0; padding: 0; align-items: center;
+          display: flex; list-style: none; gap: 20px; margin: 0; padding: 0; align-items: center;
         }
-        .nav-center a, .nav-center button {
+        .nav-item { position: relative; }
+        .nav-item a, .nav-item button {
           color: #d4af37; background: none; border: none; cursor: pointer;
-          font-size: 16px; font-weight: 500; font-family: 'Poppins', sans-serif;
-          text-decoration: none; transition: color 0.3s; padding: 0;
-          -webkit-tap-highlight-color: rgba(212,175,55,0.3);
+          font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;
+          text-decoration: none; transition: all 0.3s; padding: 5px 0;
+          text-transform: uppercase; letter-spacing: 1px;
         }
-        .nav-center a:hover, .nav-center button:hover { color: #fff; }
+        .nav-item a:hover, .nav-item button:hover { color: #fff; }
+        
+        /* Animated underline for desktop */
+        .nav-item::after {
+          content: ''; position: absolute; bottom: 0; left: 0; width: 0;
+          height: 1px; background: #d4af37; transition: width 0.3s;
+        }
+        .nav-item:hover::after { width: 100%; }
+
+        /* Register Button */
         .nav-right { z-index: 1002; }
         .register-btn {
-          padding: 10px 25px;
+          padding: 10px 22px;
           background: linear-gradient(135deg, #d4af37 0%, #f2d06b 100%);
-          color: #0a0014 !important; text-decoration: none; border-radius: 25px;
-          font-weight: 600; font-size: 15px; transition: all 0.3s;
-          box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+          color: #0a0014 !important; text-decoration: none; border-radius: 4px;
+          font-weight: 700; font-size: 13px; transition: all 0.3s;
+          letter-spacing: 1px; box-shadow: 0 4px 15px rgba(212,175,55,0.2);
         }
-        .register-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,0.5); }
+        .register-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,0.4); }
+
+        /* Mobile Hamburger */
         .mobile-menu-toggle {
           display: none; flex-direction: column; cursor: pointer;
           padding: 5px; z-index: 1002; background: none; border: none;
         }
         .hamburger-line {
-          width: 30px; height: 3px; border-radius: 3px;
-          background-color: #d4af37; margin: 4px 0;
+          width: 28px; height: 2px; border-radius: 2px;
+          background-color: #d4af37; margin: 3px 0;
           transition: 0.4s; display: block;
         }
-        .mobile-open .hamburger-line:nth-child(1) { transform: rotate(-45deg) translate(-7px, 7px); background: #fff; }
+        .mobile-open .hamburger-line:nth-child(1) { transform: rotate(-45deg) translate(-6px, 6px); background: #fff; }
         .mobile-open .hamburger-line:nth-child(2) { opacity: 0; }
-        .mobile-open .hamburger-line:nth-child(3) { transform: rotate(45deg) translate(-7px, -7px); background: #fff; }
+        .mobile-open .hamburger-line:nth-child(3) { transform: rotate(45deg) translate(-6px, -5px); background: #fff; }
+
+        /* Mobile Menu Overlay */
         .mobile-menu-overlay {
-          display: none;
-          position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-          background: linear-gradient(135deg, #0a0014 0%, #1a0a2e 50%, #0a0014 100%);
-          flex-direction: column; justify-content: center; align-items: center;
-          z-index: 1001; opacity: 0; pointer-events: none;
-          transition: opacity 0.4s ease; overflow-y: auto;
-          list-style: none; margin: 0; padding: 0;
+          display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+          background: #0a0014; flex-direction: column; justify-content: center;
+          align-items: center; z-index: 1001; opacity: 0; pointer-events: none;
+          transition: opacity 0.4s ease; list-style: none; margin: 0; padding: 0;
         }
         .mobile-menu-overlay.open { opacity: 1; pointer-events: all; }
-        .mobile-menu-overlay li { width: 100%; text-align: center; }
-        .mobile-menu-overlay a,
-        .mobile-menu-overlay button {
-          display: block; width: 100%; padding: 20px 40px;
-          font-size: 24px; font-weight: 600; color: #d4af37;
-          background: none; border: none; cursor: pointer;
-          font-family: 'Poppins', sans-serif; text-decoration: none;
-          transition: all 0.3s; letter-spacing: 1px;
-          -webkit-tap-highlight-color: rgba(212,175,55,0.3);
-          min-height: 48px; box-sizing: border-box;
+        .mobile-menu-overlay li { margin: 15px 0; width: 100%; text-align: center; }
+        .mobile-menu-overlay a, .mobile-menu-overlay button {
+          font-size: 24px; font-weight: 600; color: #d4af37; background: none;
+          border: none; font-family: 'Bebas Neue', sans-serif; text-decoration: none;
+          letter-spacing: 3px; text-transform: uppercase;
         }
-        .mobile-menu-overlay a:hover, .mobile-menu-overlay button:hover {
-          color: #fff; background: rgba(212,175,55,0.1);
+
+        /* Responsiveness */
+        @media (max-width: 1200px) {
+          .nav-center { gap: 12px; }
+          .nav-item a, .nav-item button { font-size: 12px; }
         }
-        .mobile-register-wrap { margin-top: 30px; padding: 0 40px; text-align: center; }
-        .mobile-register-btn {
-          background: linear-gradient(135deg, #d4af37 0%, #f2d06b 100%);
-          color: #0a0014 !important; border-radius: 50px;
-          font-size: 20px; padding: 18px 50px;
-          display: inline-block; text-decoration: none;
-          font-weight: 700; box-shadow: 0 8px 30px rgba(212,175,55,0.5);
-        }
+
         @media (max-width: 1024px) {
-          .enigma-navbar { padding: 0 30px; }
-          .nav-center { gap: 25px; }
-          .nav-center a, .nav-center button { font-size: 14px; }
-        }
-        @media (max-width: 968px) {
-          .enigma-navbar { padding: 0 20px; height: 70px; }
-          .nav-left img { height: 40px !important; }
-          .nav-center { display: none !important; }
-          .nav-right { display: none !important; }
+          .nav-center, .nav-right { display: none !important; }
           .mobile-menu-toggle { display: flex !important; }
           .mobile-menu-overlay { display: flex !important; }
         }
+
         @media (max-width: 480px) {
           .nav-left img { height: 35px !important; }
-          .mobile-menu-overlay a, .mobile-menu-overlay button { font-size: 20px; padding: 18px 30px; }
-          .mobile-register-btn { font-size: 18px; padding: 15px 40px; }
         }
       `}</style>
 
@@ -145,7 +143,7 @@ export default function Navbar() {
 
         <ul className="nav-center">
           {navLinks.map(({ label, id, to }) => (
-            <li key={label}>
+            <li key={label} className="nav-item">
               {to ? (
                 <Link to={to}>{label}</Link>
               ) : (
@@ -156,7 +154,7 @@ export default function Navbar() {
         </ul>
 
         <div className="nav-right">
-          <Link to="/rules" className="register-btn">Register Now →</Link>
+          <Link to="/rules" className="register-btn">REGISTER NOW</Link>
         </div>
 
         <button
@@ -170,10 +168,14 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile overlay */}
+      {/* Mobile full-screen menu */}
       <ul className={`mobile-menu-overlay ${menuOpen ? 'open' : ''}`}>
         {navLinks.map(({ label, id, to }, i) => (
-          <li key={label} style={{ opacity: menuOpen ? 1 : 0, transform: menuOpen ? 'translateY(0)' : 'translateY(20px)', transition: `all 0.4s ease ${0.1 + i * 0.05}s` }}>
+          <li key={label} style={{ 
+            opacity: menuOpen ? 1 : 0, 
+            transform: menuOpen ? 'translateY(0)' : 'translateY(20px)', 
+            transition: `all 0.4s ease ${0.1 + i * 0.05}s` 
+          }}>
             {to ? (
               <Link to={to} onClick={closeMenu}>{label}</Link>
             ) : (
@@ -181,8 +183,8 @@ export default function Navbar() {
             )}
           </li>
         ))}
-        <li className="mobile-register-wrap" style={{ opacity: menuOpen ? 1 : 0, transition: `all 0.4s ease ${0.1 + navLinks.length * 0.05}s` }}>
-          <Link to="/rules" onClick={closeMenu} className="mobile-register-btn">Register Now →</Link>
+        <li style={{ marginTop: '30px' }}>
+           <Link to="/rules" onClick={closeMenu} className="register-btn" style={{fontSize: '20px', padding: '15px 40px'}}>REGISTER NOW</Link>
         </li>
       </ul>
     </>

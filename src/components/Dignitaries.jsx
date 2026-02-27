@@ -2,8 +2,8 @@ import React from 'react'
 
 export default function Dignitaries() {
   const chiefGuestPosters = [
-    '/images/Chief_Guest_1.png', 
-    '/images/Chief_Guest_2.png'
+    '/images/Chief_Guest_2.png', 
+    '/images/Chief_Guest_1.png'
   ]
   
   const juryPosters = [
@@ -20,6 +20,7 @@ export default function Dignitaries() {
           background: #0a0516;
           position: relative;
           overflow: hidden;
+          text-align: center; /* Centers inline and inline-block children */
         }
 
         /* Ambient background glow */
@@ -40,6 +41,7 @@ export default function Dignitaries() {
           margin: 0 auto;
           position: relative;
           z-index: 2;
+          text-align: center; /* Ensures all headers/text are centered */
         }
 
         .welcome-text {
@@ -51,6 +53,7 @@ export default function Dignitaries() {
           margin-bottom: 10px;
           text-transform: uppercase;
           display: block;
+          text-align: center;
         }
 
         .section-header {
@@ -62,11 +65,14 @@ export default function Dignitaries() {
           letter-spacing: 6px;
           margin-bottom: 60px;
           text-transform: uppercase;
+          text-align: center;
+          display: inline-block; /* Helps with background-clip and centering */
+          width: 100%;
         }
 
         .poster-grid {
           display: flex;
-          justify-content: center;
+          justify-content: center; /* Centers the poster cards */
           align-items: center;
           flex-wrap: wrap;
           gap: 40px;
@@ -77,16 +83,13 @@ export default function Dignitaries() {
           position: relative;
           border-radius: 20px;
           background: rgba(255, 255, 255, 0.02);
-          padding: 10px; /* The "Frame" */
+          padding: 10px;
           border: 1px solid rgba(212, 175, 55, 0.2);
           transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
           box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        /* Chief Guest specific sizing */
         .cg-poster { width: 380px; }
-        
-        /* Jury specific sizing */
         .jury-poster { width: 350px; }
 
         .poster-wrapper img {
@@ -109,7 +112,6 @@ export default function Dignitaries() {
           filter: grayscale(0%);
         }
 
-        /* The Gold Divider Line */
         .divider-container {
           display: flex;
           align-items: center;
@@ -117,14 +119,17 @@ export default function Dignitaries() {
           margin: 40px 0 80px;
           gap: 20px;
         }
+
         .line {
           height: 1px;
           width: 100px;
           background: linear-gradient(90deg, transparent, #d4af37);
         }
+
         .line.right {
           background: linear-gradient(-90deg, transparent, #d4af37);
         }
+
         .diamond {
           width: 10px;
           height: 10px;
